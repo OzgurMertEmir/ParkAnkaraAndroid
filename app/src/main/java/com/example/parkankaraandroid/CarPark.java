@@ -6,14 +6,14 @@ import java.util.HashMap;
 public class CarPark{
 
     //properties
-    String name;
-    String adress;
-    int carNumber;
-    int capacity;
-    double latitude;
-    double longtitude;
-    LatLng location;
-    int emptySpace;
+    private String name;
+    private String adress;
+    private int carNumber;
+    private int capacity;
+    private double latitude;
+    private double longtitude;
+    private LatLng location;
+    private int emptySpace;
 
     //constructor
     public CarPark(HashMap<String, String > properties){

@@ -8,9 +8,9 @@ import java.util.ArrayList;
 public class CarParkManager {
 
     //properties
-    DataAccess dataAccess;
+    private DataAccess dataAccess;
     static CarPark chosenPark;
-    ArrayList<CarPark> carParks;
+    private ArrayList<CarPark> carParks;
 
 
     //constructors
