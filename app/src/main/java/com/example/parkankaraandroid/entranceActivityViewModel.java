@@ -37,4 +37,8 @@ public class entranceActivityViewModel extends ViewModel {
     public LiveData<Boolean> isUpdating(){
         return isUpdating;
     }
+
+    public ServiceConnection getServiceConnection(){
+        return serviceConnection;
+    }
 }

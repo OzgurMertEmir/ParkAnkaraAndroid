@@ -36,16 +36,14 @@ public class AvailabilityChecker extends Service {
         final Runnable runnable = new Runnable() {
             @Override
             public void run() {
-
+                handler.postDelayed(this, 100);
             }
         };
     }
 
-    public void resetTask(){
-        stopSelf();
-    }
-
     public  void onTaskRemoved(Intent rootIntent){
         super.onTaskRemoved(rootIntent);
+        rootIntent = new Intent("com.android.ServiceStopped");
+        sendBroadcast(rootIntent);
     }
 }
