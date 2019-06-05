@@ -30,6 +30,13 @@ public class CarParkManager {
         return chosenPark;
     }
 
+    public boolean isEmpty(){
+        if(getChosenPark().getEmptySpace() <= 0){
+            return false;
+        }
+        return false;
+    }
+
     public CarPark getChosenPark(){
         return chosenPark;
     }
