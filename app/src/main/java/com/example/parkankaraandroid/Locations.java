@@ -28,8 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Locations extends AppCompatActivity {
-    FirebaseDatabase fbDatabase;
-    DatabaseReference myRef;
+    ControllerMaster controllerMaster;
     ArrayList<String> cpCondition;
     ArrayList<String> cpName;
     ArrayList<String> cpAddress;
@@ -59,10 +58,9 @@ public class Locations extends AppCompatActivity {
         staticLng = null;
         staticName = null;
 
-        fbDatabase = FirebaseDatabase.getInstance();
-        myRef = fbDatabase.getReference();
+        controllerMaster = new ControllerMaster();
 
-        getDataFromFirebase();
+        getDataFromMaster();
 
         adapter = new LocationsPostClass(cpName, cpAddress, cpCondition, this);
 
@@ -88,36 +86,25 @@ public class Locations extends AppCompatActivity {
         });
     }
 
-    public void getDataFromFirebase(){
-        DatabaseReference newReference = fbDatabase.getReference("CarPark");
-        newReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                cpName.clear();
-                cpCondition.clear();
-                latitude.clear();
-                longitude.clear();
-                cpAddress.clear();
-                for( DataSnapshot ds : dataSnapshot.getChildren() )
-                {
-                    HashMap<String, String> hashMap = ( HashMap<String, String> ) ds.getValue();
-                    cpName.add(hashMap.get("name"));
+    public void getDataFromMaster(){
+        cpName.clear();
+        cpCondition.clear();
+        latitude.clear();
+        longitude.clear();
+        cpAddress.clear();
+        for( CarPark carPark : controllerMaster.getCarParks() )
+        {
+            cpName.add(carPark.getName());
 
-                    cpCondition.add( String.valueOf ( Integer.parseInt(hashMap.get("fullCapacity") ) - Integer.parseInt(hashMap.get("currentCars") ) ) );
+            cpCondition.add( String.valueOf ( carPark.getEmptySpace() ) );
 
-                    latitude.add( hashMap.get("latitude") );
-                    longitude.add( hashMap.get("longitude") );
+            latitude.add( carPark.getLatitude() );
+            longitude.add( carPark.getLongtitude() );
 
-                    cpAddress.add(hashMap.get("address"));
+            cpAddress.add(carPark.getAdress());
 
-                    adapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+            adapter.notifyDataSetChanged();
+        }
     }
 }
+
