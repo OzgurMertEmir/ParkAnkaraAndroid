@@ -24,8 +24,6 @@ import java.util.Set;
 
 public class FavoriteCarParks extends AppCompatActivity {
     SharedPreferences sharedPreferences;
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
     Set<String> favorites;
     ArrayList<String> cpCondition;
     ArrayList<String> cpName;
@@ -34,6 +32,7 @@ public class FavoriteCarParks extends AppCompatActivity {
     ArrayList<String> longitude;
     ListView favoritesListView;
     static FavoritesPostClass adapter;
+    ControllerMaster controllerMaster;
 
 
 
@@ -55,15 +54,15 @@ public class FavoriteCarParks extends AppCompatActivity {
         latitude = new ArrayList<>();
         longitude = new ArrayList<>();
 
-        //Connect to Database
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("CarPark");
+        //ControllerMaster
+        controllerMaster = new ControllerMaster();
+
 
         //Finds Shared Preferences
         sharedPreferences = getSharedPreferences("com.example.parkankara", Context.MODE_PRIVATE);
         //sharedPreferences = getPreferences(Context.MODE_PRIVATE);
         favorites = new HashSet<>( sharedPreferences.getStringSet("CarParkName", new HashSet<String>()) );
-        getFavoritesFromDatabase();
+        getFavoritesFromMaster();
 
         //Connecting to adapter
         adapter = new FavoritesPostClass(cpName, cpAddress, cpCondition, this);
@@ -82,29 +81,21 @@ public class FavoriteCarParks extends AppCompatActivity {
         });
     }
 
-    public void getFavoritesFromDatabase(){
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot ds : dataSnapshot.getChildren() ){
-                    HashMap<String, String> hashMap = ( HashMap<String, String> ) ds.getValue();
-                    if( favorites.contains(hashMap.get("name") ) )
-                    {
-                        cpName.add( hashMap.get("name") );
-                        cpAddress.add( hashMap.get("address") );
-                        cpCondition.add( String.valueOf( Integer.parseInt(hashMap.get("fullCapacity") ) - Integer.parseInt(hashMap.get("currentCars") ) ) );
-                        latitude.add( hashMap.get("latitude") );
-                        longitude.add(hashMap.get("longitude"));
-                        adapter.notifyDataSetChanged();
-                    }
-                }
-            }
+    public void getFavoritesFromMaster(){
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
+        for(CarPark carPark : controllerMaster.getCarParks() ){
+            if( favorites.contains(carPark.getName() ) )
+            {
+                cpName.add( carPark.getName() );
+                cpAddress.add( carPark.getAdress() );
+                cpCondition.add( String.valueOf( carPark.getEmptySpace() ) );
+                latitude.add( carPark.getLatitude());
+                longitude.add(carPark.getLongtitude());
+                adapter.notifyDataSetChanged();
             }
-        });
+        }
 
     }
-}
+
+    }
+

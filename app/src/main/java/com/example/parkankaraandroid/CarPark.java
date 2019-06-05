@@ -49,4 +49,8 @@ public class CarPark{
     public int getCapacity(){
         return capacity;
     }
+
+    public String getLatitude(){return String.valueOf(latitude);}
+
+    public String getLongtitude(){return String.valueOf(longtitude);}
 }
