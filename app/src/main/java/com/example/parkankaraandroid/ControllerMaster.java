@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class ControllerMaster{
 
     //properties
-    CarParkManager carParkManager;
+    static CarParkManager carParkManager;
 
     public ControllerMaster(){
         carParkManager = new CarParkManager();
