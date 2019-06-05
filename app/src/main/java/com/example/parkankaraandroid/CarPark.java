@@ -36,9 +36,7 @@ public class CarPark{
         return location;
     }
 
-    public String getCarNumber(){
-        return String.valueOf(carNumber);
-    }
+    public int getCarNumber(){ return carNumber; }
 
     public int getEmptySpace(){
         return emptySpace;
