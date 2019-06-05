@@ -10,9 +10,9 @@ import com.google.android.gms.maps.model.LatLng;
 public class CarParkManager {
 
     //properties
-    DataAccess dataAccess;
+    private DataAccess dataAccess;
     static CarPark chosenPark;
-    ArrayList<CarPark> carParks;
+    private ArrayList<CarPark> carParks;
 
 
     //constructors

@@ -13,11 +13,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class DataAccess {
-    Timer timer;
-    TimerTask timerTask;
-    DatabaseReference databaseReference;
-    FirebaseDatabase firebaseDatabase;
-    ArrayList<CarPark> carParks;
+    private Timer timer;
+    private TimerTask timerTask;
+    private DatabaseReference databaseReference;
+    private FirebaseDatabase firebaseDatabase;
+    private ArrayList<CarPark> carParks;
 
     public DataAccess() {
         firebaseDatabase = FirebaseDatabase.getInstance();
