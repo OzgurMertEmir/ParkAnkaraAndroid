@@ -72,6 +72,9 @@ public class Locations extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 staticLat = Double.parseDouble(latitude.get(position));
                 staticLng = Double.parseDouble(longitude.get(position));
+
+                controllerMaster.getCarParkManager().chooseCarPark(cpName.get(position));
+
                 if(Integer.parseInt(cpCondition.get(position) ) > 0){
                     isFull = false;
                 }
@@ -92,6 +95,7 @@ public class Locations extends AppCompatActivity {
         latitude.clear();
         longitude.clear();
         cpAddress.clear();
+
         for( CarPark carPark : controllerMaster.getCarParks() )
         {
             cpName.add(carPark.getName());

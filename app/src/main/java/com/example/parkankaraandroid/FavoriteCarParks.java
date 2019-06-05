@@ -73,6 +73,9 @@ public class FavoriteCarParks extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Locations.staticLat = Double.parseDouble(latitude.get(position));
                 Locations.staticLng = Double.parseDouble(longitude.get(position));
+
+                controllerMaster.getCarParkManager().chooseCarPark(cpName.get(position));
+
                 startService(new Intent(getApplicationContext(), AvailabilityChecker.class) );
 
                 Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
