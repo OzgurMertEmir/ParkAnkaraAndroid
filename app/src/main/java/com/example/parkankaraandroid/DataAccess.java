@@ -58,4 +58,8 @@ public class DataAccess {
             System.out.println(cp.getName());
         }
     }
+
+    public ArrayList getCarParks(){
+        return carParks;
+    }
 }
