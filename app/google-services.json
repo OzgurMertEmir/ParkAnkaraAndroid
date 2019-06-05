@@ -1,0 +1,196 @@
+{
+  "project_info": {
+    "project_number": "124805622191",
+    "firebase_url": "https://parkankara-59ec4.firebaseio.com",
+    "project_id": "parkankara-59ec4",
+    "storage_bucket": "parkankara-59ec4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:124805622191:android:4d1e656c67fa5d00",
+        "android_client_info": {
+          "package_name": "com.example.parkankara"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "124805622191-9ahk5plrrbkjum4slon47djirenaoq8d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.parkankara",
+            "certificate_hash": "ba405827d870aa8f809fa6280e0b8ab4ff541fc4"
+          }
+        },
+        {
+          "client_id": "124805622191-rjgqk77srl6u21ap5i8bosplpo5sgrgn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOZ0bxeb3qqE_QF3f9XEz1e05srBkARCw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "124805622191-rjgqk77srl6u21ap5i8bosplpo5sgrgn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:124805622191:android:8d882a49b67a773a",
+        "android_client_info": {
+          "package_name": "com.example.parkankaraandroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "124805622191-p3lg6l4lpn05aheb0vnb6jf32qt5nk7o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.parkankaraandroid",
+            "certificate_hash": "b78bce1dd3757757f602255fc5948fa1930a69c0"
+          }
+        },
+        {
+          "client_id": "124805622191-aol46i5i439avi0p75dd537vf05ccfdm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.parkankaraandroid",
+            "certificate_hash": "ba405827d870aa8f809fa6280e0b8ab4ff541fc4"
+          }
+        },
+        {
+          "client_id": "124805622191-rjgqk77srl6u21ap5i8bosplpo5sgrgn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOZ0bxeb3qqE_QF3f9XEz1e05srBkARCw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "124805622191-rjgqk77srl6u21ap5i8bosplpo5sgrgn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:124805622191:android:a5c7b9bd6145d188",
+        "android_client_info": {
+          "package_name": "com.saat.pc52.parkAnkaraKizilayVale"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "124805622191-rjgqk77srl6u21ap5i8bosplpo5sgrgn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOZ0bxeb3qqE_QF3f9XEz1e05srBkARCw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "124805622191-rjgqk77srl6u21ap5i8bosplpo5sgrgn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:124805622191:android:94015cee9ac13f3c",
+        "android_client_info": {
+          "package_name": "com.saat.pc52.parkAnkaraTunaliVale"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "124805622191-ulg70h31disqaii96o18ji7upc181mf0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.saat.pc52.parkAnkaraTunaliVale",
+            "certificate_hash": "dbf9c4f689199d4c9d8a26f9658b7a8939920aaf"
+          }
+        },
+        {
+          "client_id": "124805622191-rjgqk77srl6u21ap5i8bosplpo5sgrgn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOZ0bxeb3qqE_QF3f9XEz1e05srBkARCw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "124805622191-rjgqk77srl6u21ap5i8bosplpo5sgrgn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:124805622191:android:27718556808e8607",
+        "android_client_info": {
+          "package_name": "com.saat.pc52.parkAnkaraVale"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "124805622191-6ta75oo5umt2onfmmaoqk608n6ftcfbe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.saat.pc52.parkAnkaraVale",
+            "certificate_hash": "dbf9c4f689199d4c9d8a26f9658b7a8939920aaf"
+          }
+        },
+        {
+          "client_id": "124805622191-rjgqk77srl6u21ap5i8bosplpo5sgrgn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOZ0bxeb3qqE_QF3f9XEz1e05srBkARCw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "124805622191-rjgqk77srl6u21ap5i8bosplpo5sgrgn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
