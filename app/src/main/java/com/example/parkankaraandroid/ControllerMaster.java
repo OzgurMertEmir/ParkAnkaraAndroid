@@ -4,7 +4,7 @@ package com.example.parkankaraandroid;
 import java.util.ArrayList;
 
 public class ControllerMaster{
-
+//
     //properties
     static CarParkManager carParkManager = new CarParkManager();
 

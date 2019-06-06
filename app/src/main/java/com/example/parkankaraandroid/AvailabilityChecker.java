@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 import android.widget.Toast;
 
 public class AvailabilityChecker extends Service {
-
+    //
     private static final String TAG = "AvailabilityChecker";
     private IBinder binder = new MyBinder();
     private Handler handler;

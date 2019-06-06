@@ -17,6 +17,7 @@ import java.util.TimerTask;
 import static android.content.ContentValues.TAG;
 
 public class DataAccess {
+    //
     private Timer timer;
     private TimerTask timerTask;
     private DatabaseReference databaseReference;

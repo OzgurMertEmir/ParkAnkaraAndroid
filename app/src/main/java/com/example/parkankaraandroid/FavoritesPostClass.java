@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class FavoritesPostClass extends ArrayAdapter<String> {
+    //
 
     private final Activity context;
     private final ArrayList<String> cpName;
