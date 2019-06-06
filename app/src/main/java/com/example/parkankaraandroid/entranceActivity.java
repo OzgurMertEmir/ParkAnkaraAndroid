@@ -10,32 +10,16 @@ import android.view.View;
 public class entranceActivity extends AppCompatActivity {
 
     private AvailabilityChecker checker;
-    private entranceActivityViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entrance);
-        viewModel = ViewModelProviders.of(this).get(entranceActivityViewModel.class);
+
 
     }
 
-    @Override
-    protected void onResume(){
-        super.onResume();
-        startService();
-    }
 
-    private void startService(){
-        Intent serviceIntent = new Intent(this, AvailabilityChecker.class);
-        startService(serviceIntent);
-        bindService();
-    }
-
-    private void bindService(){
-        Intent serviceIntent = new Intent(this, AvailabilityChecker.class);
-        bindService(serviceIntent, viewModel.getServiceConnection(), Context.BIND_AUTO_CREATE);
-    }
 
     protected void seeTheMap(View view)
     {

@@ -8,7 +8,7 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.util.Log;
 
-public class entranceActivityViewModel extends ViewModel {
+public class entranceActivityViewModel  extends ViewModel {
 
     private static final String TAG = "entranceActivityViewMod";
 

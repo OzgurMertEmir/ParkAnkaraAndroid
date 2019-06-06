@@ -17,6 +17,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Locations"/>
+        <activity android:name=".MapsActivity"/>
+        <activity android:name=".FavoriteCarParks"/>
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyBllqFgsBV_oe5hUJ6QCh5qqBkV9uRoqpE"/>
         <service android:name=".AvailabilityChecker"
             android:stopWithTask="false"/>
     </application>
