@@ -88,24 +88,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         // Add a marker in Kızılay and move the camera
 
-        if( Locations.staticLng == null && Locations.staticLat == null )
+        if( controllerMaster.getCarParkManager().getChosenPark() == null )
         {
             getLatLngFromDatabase();
         }
         else {
             try {
-                latLng = new LatLng(Locations.staticLat, Locations.staticLng);
                 MarkerOptions options = new MarkerOptions();
-                options.position(latLng);
-                if(Locations.isFull) {
+                options.position(controllerMaster.getCarParkManager().getChosenParkLocation());
+                if(controllerMaster.getCarParkManager().getChosenPark().getEmptySpace() == 0) {
                     options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                 }else{
                     options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                 }
                 mMap.addMarker(options);
                 startService(new Intent(getApplicationContext(), AvailabilityChecker.class) );
-                Locations.staticLat = null;
-                Locations.staticLng = null;
             }catch(Exception e){
                 stopService(new Intent(getApplicationContext(), AvailabilityChecker.class));
             }

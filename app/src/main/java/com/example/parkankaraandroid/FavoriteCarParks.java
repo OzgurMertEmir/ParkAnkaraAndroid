@@ -1,5 +1,6 @@
 package com.example.parkankaraandroid;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -31,8 +32,10 @@ public class FavoriteCarParks extends AppCompatActivity {
     ArrayList<String> latitude;
     ArrayList<String> longitude;
     ListView favoritesListView;
-    static FavoritesPostClass adapter;
+    FavoritesPostClass adapter;
     ControllerMaster controllerMaster;
+    private entranceActivityViewModel viewModel;
+
 
 
 
@@ -41,7 +44,6 @@ public class FavoriteCarParks extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite_car_parks);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //find listView
@@ -57,26 +59,27 @@ public class FavoriteCarParks extends AppCompatActivity {
         //ControllerMaster
         controllerMaster = new ControllerMaster();
 
+        //viewModel creation
+        viewModel = ViewModelProviders.of(this).get(entranceActivityViewModel.class);
+
+
 
         //Finds Shared Preferences
         sharedPreferences = getSharedPreferences("com.example.parkankara", Context.MODE_PRIVATE);
-        //sharedPreferences = getPreferences(Context.MODE_PRIVATE);
         favorites = new HashSet<>( sharedPreferences.getStringSet("CarParkName", new HashSet<String>()) );
-        getFavoritesFromMaster();
 
         //Connecting to adapter
         adapter = new FavoritesPostClass(cpName, cpAddress, cpCondition, this);
         favoritesListView.setAdapter(adapter);
 
+        getFavoritesFromMaster();
+
         favoritesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Locations.staticLat = Double.parseDouble(latitude.get(position));
-                Locations.staticLng = Double.parseDouble(longitude.get(position));
-
                 controllerMaster.getCarParkManager().chooseCarPark(cpName.get(position));
-
-                startService(new Intent(getApplicationContext(), AvailabilityChecker.class) );
+                startService();
+                bindService();
 
                 Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
                 startActivity(intent);
@@ -100,5 +103,16 @@ public class FavoriteCarParks extends AppCompatActivity {
 
     }
 
+    private void startService(){
+        Intent serviceIntent = new Intent(this, AvailabilityChecker.class);
+        startService(serviceIntent);
+        bindService();
     }
+
+    private void bindService(){
+        Intent serviceIntent = new Intent(this, AvailabilityChecker.class);
+        bindService(serviceIntent, viewModel.getServiceConnection(), Context.BIND_AUTO_CREATE);
+    }
+
+}
 

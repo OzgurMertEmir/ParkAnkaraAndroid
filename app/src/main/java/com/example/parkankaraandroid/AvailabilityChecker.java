@@ -37,6 +37,7 @@ public class AvailabilityChecker extends Service {
         final Runnable runnable = new Runnable() {
             @Override
             public void run() {
+
                 handler.postDelayed(this, 100);
             }
         };
@@ -44,13 +45,15 @@ public class AvailabilityChecker extends Service {
 
     @Override
     public void onDestroy(){
-        if(!manager.isEmpty()){
+        if( !manager.isEmpty()){
             Toast.makeText(getApplicationContext(), "Park yeri doldu", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(getApplicationContext(), Locations.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+
         }
     }
+
 
     public  void onTaskRemoved(Intent rootIntent){
         super.onTaskRemoved(rootIntent);

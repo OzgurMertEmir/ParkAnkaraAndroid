@@ -1,8 +1,12 @@
 package com.example.parkankaraandroid;
 
+import android.util.Log;
+
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
+
+import static android.support.constraint.Constraints.TAG;
 
 
 public class CarParkManager {
@@ -31,10 +35,13 @@ public class CarParkManager {
     }
 
     public boolean isEmpty(){
-        if(getChosenPark().getEmptySpace() <= 0){
+        if(chosenPark != null) {
+            if (getChosenPark().getEmptySpace() <= 0) {
+                return false;
+            }
             return false;
-        }
-        return false;
+        }else
+            return false;
     }
 
     public CarPark getChosenPark(){
@@ -90,6 +97,7 @@ public class CarParkManager {
     }
 
     public ArrayList<CarPark> getCarParks(){
+        Log.d(TAG, "getCarParks: Method entered!!!!!");
         return carParks;
     }
 
