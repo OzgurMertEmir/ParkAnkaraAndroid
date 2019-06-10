@@ -2,6 +2,7 @@ package com.example.parkankaraandroid;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -12,6 +13,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -29,6 +31,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static android.content.ContentValues.TAG;
+
 public class Locations extends AppCompatActivity {
     //properties
     ControllerMaster controllerMaster;
@@ -39,7 +43,6 @@ public class Locations extends AppCompatActivity {
     LocationsPostClass adapter;
     ArrayList<String> latitude;
     ArrayList<String> longitude;
-    private entranceActivityViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,16 +58,12 @@ public class Locations extends AppCompatActivity {
         cpName = new ArrayList<>();
         latitude = new ArrayList<>();
         longitude = new ArrayList<>();
-        viewModel = ViewModelProviders.of(this).get(entranceActivityViewModel.class);
-
-
         adapter = new LocationsPostClass(cpName, cpAddress, cpCondition, this);
+
 
         getDataFromMaster();
 
         listView.setAdapter(adapter);
-
-
 
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -73,46 +72,37 @@ public class Locations extends AppCompatActivity {
 
                 controllerMaster.getCarParkManager().chooseCarPark(cpName.get(position));
                 startService();
-                bindService();
-
                 Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
                 startActivity(intent);
             }
         });
     }
 
-    public void getDataFromMaster(){
+    public void getDataFromMaster() {
         cpName.clear();
         cpCondition.clear();
         latitude.clear();
         longitude.clear();
         cpAddress.clear();
+        Log.d(TAG, "getDataFromMaster: ENTERED AND CLEARED ALL THE ARRAYLISTS");
 
-        for( CarPark carPark : controllerMaster.getCarParks() )
-        {
+        for (CarPark carPark : controllerMaster.getCarParks()) {
             cpName.add(carPark.getName());
 
-            cpCondition.add( String.valueOf ( carPark.getEmptySpace() ) );
+            cpCondition.add(String.valueOf(carPark.getEmptySpace()));
 
-            latitude.add( carPark.getLatitude() );
-            longitude.add( carPark.getLongtitude() );
+            latitude.add(carPark.getLatitude());
+            longitude.add(carPark.getLongtitude());
 
             cpAddress.add(carPark.getAdress());
-
-
+            adapter.notifyDataSetChanged();
         }
-        adapter.notifyDataSetChanged();
     }
 
-    private void startService(){
+    private void startService() {
         Intent serviceIntent = new Intent(this, AvailabilityChecker.class);
         startService(serviceIntent);
-        bindService();
-    }
-
-    private void bindService(){
-        Intent serviceIntent = new Intent(this, AvailabilityChecker.class);
-        bindService(serviceIntent, viewModel.getServiceConnection(), Context.BIND_AUTO_CREATE);
     }
 }
+
 

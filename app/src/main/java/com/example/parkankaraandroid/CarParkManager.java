@@ -98,8 +98,14 @@ public class CarParkManager {
 
     public ArrayList<CarPark> getCarParks(){
         Log.d(TAG, "getCarParks: Method entered!!!!!");
+        for(CarPark carPark : carParks){
+            System.out.println( "---------------------------------------------------------------------" + carPark.getName() + "--------------------------------------------------------------------------------");
+        }
         return carParks;
     }
 
+    public void removeChosenPark(){
+        chosenPark = null;
+    }
 
 }

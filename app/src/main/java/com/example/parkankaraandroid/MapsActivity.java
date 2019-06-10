@@ -103,6 +103,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                 }
                 mMap.addMarker(options);
+                controllerMaster.getCarParkManager().removeChosenPark();
                 startService(new Intent(getApplicationContext(), AvailabilityChecker.class) );
             }catch(Exception e){
                 stopService(new Intent(getApplicationContext(), AvailabilityChecker.class));

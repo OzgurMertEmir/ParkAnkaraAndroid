@@ -25,52 +25,22 @@ public class DataAccess {
     private ArrayList<CarPark> carParks;
 
     public DataAccess() {
-        carParks = new ArrayList<CarPark>();
-
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("CarPark");
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                carParks.clear();
-                for ( DataSnapshot ds: dataSnapshot.getChildren()) {
-                    try {
-                        HashMap<String, String> hashMap = (HashMap<String, String>) ds.getValue();
-                        CarPark carPark = new CarPark(hashMap);
-                        carParks.add(carPark);
-                        Log.d(TAG, "onDataChange: Entered the first listener!!!!");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+        carParks = getDataFromDatabase();
 
-            }
-        });
-
-        //checkDatabase();
+        checkDatabase();
 
     }
 
-    public void printArrayList()
-    {
-        for( CarPark cp : carParks){
-            System.out.println(cp.getName());
-        }
-    }
 
-    public ArrayList getCarParks(){
-        return carParks;
-    }
 
     public void checkDatabase(){
         timer = new Timer(true);
         timerTask = new TimerTask() {
             @Override
             public void run() {
-                databaseReference.addValueEventListener(new ValueEventListener() {
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         carParks.clear();
@@ -95,5 +65,41 @@ public class DataAccess {
             }
         };
         timer.schedule(timerTask,10000);
+    }
+
+    public ArrayList<CarPark> getDataFromDatabase(){
+        final ArrayList<CarPark> carParksFromDatabase = new ArrayList<>();
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for ( DataSnapshot ds: dataSnapshot.getChildren()) {
+                    try {
+                        HashMap<String, String> hashMap = (HashMap<String, String>) ds.getValue();
+                        CarPark carPark = new CarPark(hashMap);
+                        carParksFromDatabase.add(carPark);
+                        Log.d(TAG, "onDataChange: Entered the first listener!!!!");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        return carParksFromDatabase;
+    }
+
+    public void printArrayList()
+    {
+        for( CarPark cp : carParks){
+            System.out.println(cp.getName());
+        }
+    }
+
+    public ArrayList getCarParks(){
+        return carParks;
     }
 }
