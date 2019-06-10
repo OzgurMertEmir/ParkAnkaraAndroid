@@ -13,7 +13,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 public class Locations extends AppCompatActivity {
-    //
+    //properties
     ControllerMaster controllerMaster;
     ArrayList<String> cpCondition;
     ArrayList<String> cpName;
