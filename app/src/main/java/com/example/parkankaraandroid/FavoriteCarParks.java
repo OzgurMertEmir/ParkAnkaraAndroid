@@ -34,8 +34,6 @@ public class FavoriteCarParks extends AppCompatActivity {
     ListView favoritesListView;
     FavoritesPostClass adapter;
     ControllerMaster controllerMaster;
-    private entranceActivityViewModel viewModel;
-
 
 
 
@@ -60,10 +58,6 @@ public class FavoriteCarParks extends AppCompatActivity {
         //ControllerMaster
         controllerMaster = new ControllerMaster();
 
-        //viewModel creation
-        viewModel = ViewModelProviders.of(this).get(entranceActivityViewModel.class);
-
-
 
         //Finds Shared Preferences
         sharedPreferences = getSharedPreferences("com.example.parkankara", Context.MODE_PRIVATE);
@@ -80,8 +74,6 @@ public class FavoriteCarParks extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 controllerMaster.getCarParkManager().chooseCarPark(cpName.get(position));
                 startService();
-                bindService();
-
                 Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
                 startActivity(intent);
             }
@@ -107,13 +99,8 @@ public class FavoriteCarParks extends AppCompatActivity {
     private void startService(){
         Intent serviceIntent = new Intent(this, AvailabilityChecker.class);
         startService(serviceIntent);
-        bindService();
     }
 
-    private void bindService(){
-        Intent serviceIntent = new Intent(this, AvailabilityChecker.class);
-        bindService(serviceIntent, viewModel.getServiceConnection(), Context.BIND_AUTO_CREATE);
-    }
 
 }
 
