@@ -4,7 +4,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.HashMap;
 
 public class CarPark{
-
+    //
     //properties
     private String name;
     private String adress;

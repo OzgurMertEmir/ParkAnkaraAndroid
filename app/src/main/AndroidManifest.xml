@@ -10,6 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".entranceActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,12 +18,36 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Locations"/>
-        <activity android:name=".MapsActivity"/>
-        <activity android:name=".FavoriteCarParks"/>
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyBllqFgsBV_oe5hUJ6QCh5qqBkV9uRoqpE"/>
-        <service android:name=".AvailabilityChecker"
+
+        <activity
+            android:name=".Locations"
+            android:label="Locations"
+            android:parentActivityName=".entranceActivity">
+                <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.example.parkankaraandroid.entranceActivity" />
+        </activity>
+
+        <activity   android:name=".MapsActivity"
+                    android:label="Maps"/>
+
+        <activity
+            android:name=".FavoriteCarParks"
+            android:label="Favorite Car Parks"
+            android:parentActivityName=".entranceActivity">
+                <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.example.parkankaraandroid.entranceActivity" />
+        </activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBllqFgsBV_oe5hUJ6QCh5qqBkV9uRoqpE"/>
+
+        <service
+            android:name=".AvailabilityChecker"
             android:stopWithTask="false"/>
+
     </application>
 
 </manifest>

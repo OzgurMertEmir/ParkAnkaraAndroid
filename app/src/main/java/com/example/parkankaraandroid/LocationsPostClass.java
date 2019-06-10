@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class LocationsPostClass extends ArrayAdapter<String> {
+    //
 
     private final ArrayList<String> cpName;
     private final ArrayList<String> cpAddress;
