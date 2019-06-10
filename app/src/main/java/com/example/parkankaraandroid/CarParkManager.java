@@ -36,10 +36,10 @@ public class CarParkManager {
 
     public boolean isEmpty(){
         if(chosenPark != null) {
-            if (getChosenPark().getEmptySpace() <= 0) {
+            if (getChosenParkEmptySpace() <= 0) {
                 return false;
             }
-            return false;
+            return true;
         }else
             return false;
     }
