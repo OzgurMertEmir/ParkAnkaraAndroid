@@ -27,16 +27,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     LocationManager locationManager;
     LocationListener locationListener;
-    LatLng latLng;
     ControllerMaster controllerMaster;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         controllerMaster = new ControllerMaster();
     }
@@ -59,7 +58,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                System.out.println("location " + location.toString());
             }
 
             @Override
@@ -109,7 +107,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(39.902397, 32.860538), 10));
-        mMap.setMyLocationEnabled(true);
+        if(Manifest.permission.ACCESS_FINE_LOCATION.equals("true")){
+            mMap.setMyLocationEnabled(true);
+        }
+        else{
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        }
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
     }
 
@@ -150,9 +153,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.addMarker(options);
             System.out.println("------------------------------------------LATLNG ADDED TO MARKER POINTS --------------------------------------------------------------");
         }
-
-
     }
-
 }
 

@@ -17,5 +17,4 @@ public class ControllerMaster{
     public ArrayList<CarPark> getCarParks(){
         return carParkManager.getCarParks();
     }
-
 }

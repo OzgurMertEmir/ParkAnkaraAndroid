@@ -1,19 +1,17 @@
 package com.example.parkankaraandroid;
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.parkankaraandroid.R;
+import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -26,8 +24,8 @@ public class FavoritesPostClass extends ArrayAdapter<String> {
     private final ArrayList<String> cpAddress;
     private final ArrayList<String> cpCondition;
     Set<String> favorites;
-    Set<String> newFavorites;
     SharedPreferences sharedPreferences;
+    ToggleButton toggleButton;
 
     /**
      *
@@ -36,6 +34,7 @@ public class FavoritesPostClass extends ArrayAdapter<String> {
      * @param cpCondition condition of all the favorited  car parks
      * @param context context of the parent activity
      */
+
     public FavoritesPostClass(ArrayList<String> cpName, ArrayList<String> cpAddress, ArrayList<String> cpCondition, Activity context) {
         super(context, R.layout.favorites_post_class, cpName);
         this.context = context;
@@ -43,9 +42,9 @@ public class FavoritesPostClass extends ArrayAdapter<String> {
         this.cpAddress = cpAddress;
         this.cpCondition = cpCondition;
         sharedPreferences = context.getSharedPreferences("com.example.parkankara", Context.MODE_PRIVATE);
+
         //sharedPreferences = context.getPreferences(Context.MODE_PRIVATE);
         favorites = sharedPreferences.getStringSet("CarParkName", new HashSet<String>());
-        newFavorites = new HashSet<>();
     }
 
     /**
@@ -54,6 +53,7 @@ public class FavoritesPostClass extends ArrayAdapter<String> {
      * @param parent The parent that this view will be  attached to
      * @return View corresponding to the data at the specified location
      */
+
     @Override
     public View getView( final int position, View convertView, ViewGroup parent) {
         LayoutInflater layoutInflater = context.getLayoutInflater();
@@ -63,8 +63,29 @@ public class FavoritesPostClass extends ArrayAdapter<String> {
         TextView cpNameText = favoriteCarParkInfo.findViewById(R.id.cpName);
         TextView addressText = favoriteCarParkInfo.findViewById(R.id.address);
         TextView conditionText = favoriteCarParkInfo.findViewById(R.id.condition);
-        Button unfav = favoriteCarParkInfo.findViewById(R.id.favoriteButton);
+        toggleButton =  favoriteCarParkInfo.findViewById(R.id.favoriteButton);
 
+         //Adding click listener to the button
+        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                if (!favorites.contains(cpName.get(position))) {
+                    favorites.add(cpName.get(position));
+                    editor.putStringSet("CarParkName", favorites).apply();
+                    editor.commit();
+                    Toast.makeText(context, cpName.get(position) + " added to favorites", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    favorites.remove(cpName.get(position));
+                    editor.putStringSet("CarParkName", favorites).apply();
+                    editor.commit();
+                    Toast.makeText(context, cpName.get(position) + " removed from favorites", Toast.LENGTH_LONG).show();
+                }
+                Intent intent = new Intent(context, FavoriteCarParks.class);
+                context.startActivity(intent);
+            }
+        });
 
         //set method  of components
         cpNameText.setText( cpName.get(position) );
@@ -79,36 +100,6 @@ public class FavoritesPostClass extends ArrayAdapter<String> {
             conditionText.setText("Empty Space: " + cpCondition.get(position));
         }
 
-        //Adding click listener to the button
-        unfav.setOnClickListener(new View.OnClickListener() {
-            /**
-             *
-             * @param v view that is  being clicked
-             */
-            @Override
-            public void onClick(View v) {
-
-                for(String s : favorites) {
-                    if (!cpName.get(position).equals(s)) {
-                        newFavorites.add(s);
-                    }
-                }
-
-                //Changing the shared preferences and updating the page
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putStringSet("CarParkName", newFavorites).apply();
-                editor.commit();
-                //sharedPreferences.edit().putStringSet("CarParkName", newFavorites ).apply();
-                Toast.makeText(context, cpName.get(position)  + " removed from favorites", Toast.LENGTH_LONG).show();
-
-                //refresh the page
-                Intent intent = new Intent(context, FavoriteCarParks.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-            }
-        });
-
         return favoriteCarParkInfo;
     }
-
 }

@@ -3,13 +3,15 @@ package com.example.parkankaraandroid;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -23,7 +25,7 @@ public class LocationsPostClass extends ArrayAdapter<String> {
     private final Activity context;
     SharedPreferences sharedPreferences;
     Set<String> favorites;
-
+    ToggleButton toggleButton;
 
     /**
      *
@@ -39,7 +41,6 @@ public class LocationsPostClass extends ArrayAdapter<String> {
         this.cpCondition = cpCondition;
         this.context = context;
         sharedPreferences = context.getSharedPreferences("com.example.parkankara", Context.MODE_PRIVATE);
-        //sharedPreferences = context.getPreferences(Context.MODE_PRIVATE);
         favorites = new HashSet<>( sharedPreferences.getStringSet("CarParkName", new HashSet<String>()) );
     }
 
@@ -59,23 +60,39 @@ public class LocationsPostClass extends ArrayAdapter<String> {
         TextView cpNameText = carParkInfo.findViewById(R.id.cpName);
         TextView locationText = carParkInfo.findViewById(R.id.address);
         TextView conditionText = carParkInfo.findViewById(R.id.condition);
-        Button favButton = carParkInfo.findViewById(R.id.favoriteButton);
+        toggleButton = carParkInfo.findViewById(R.id.favoriteButton);
 
-        //Adding click listener to the button
-        favButton.setOnClickListener(new View.OnClickListener() {
-            /**
-             * @param v The view that was clicked
-             */
+        if(!favorites.contains(cpName.get(position)))
+        {
+            toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.unfilled_star));
+        }else{
+            toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.filled_star));
+        }
+        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                favorites.add(cpName.get(position));
-                //sharedPreferences.edit().putStringSet("CarParkName", favorites ).apply();
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putStringSet("CarParkName", favorites).apply();
-                editor.commit();
-                Toast.makeText(context, cpName.get(position)  + " added to favorites", Toast.LENGTH_LONG).show();
-                System.out.println(cpName.get(position));
+                if (!favorites.contains(cpName.get(position))) {
+                    favorites.add(cpName.get(position));
+                    editor.putStringSet("CarParkName", favorites).apply();
+                    editor.commit();
+                    Toast.makeText(context, cpName.get(position) + " added to favorites", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    favorites.remove(cpName.get(position));
+                    editor.putStringSet("CarParkName", favorites).apply();
+                    editor.commit();
+                    Toast.makeText(context, cpName.get(position) + " removed from favorites", Toast.LENGTH_LONG).show();
+                }
+                if(!favorites.contains(cpName.get(position)))
+                {
+                    toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.unfilled_star));
+                }else{
+                    toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.filled_star));
+                }
+                Locations.adapter.notifyDataSetChanged();
             }
+
         });
 
         //set method  of components
@@ -88,7 +105,7 @@ public class LocationsPostClass extends ArrayAdapter<String> {
             conditionText.setText("Park yeri dolu");
         }
         else {
-            conditionText.setText(cpCondition.get(position) + "tane boş yer mevcut");
+            conditionText.setText(cpCondition.get(position) + " tane boş yer mevcut");
         }
 
         return carParkInfo;

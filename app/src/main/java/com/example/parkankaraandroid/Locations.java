@@ -18,7 +18,7 @@ public class Locations extends AppCompatActivity {
     ArrayList<String> cpName;
     ArrayList<String> cpAddress;
     ListView listView;
-    LocationsPostClass adapter;
+    static LocationsPostClass adapter;
     ArrayList<String> latitude;
     ArrayList<String> longitude;
     private entranceActivityViewModel viewModel;
