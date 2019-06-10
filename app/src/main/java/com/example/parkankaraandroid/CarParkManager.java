@@ -13,7 +13,7 @@ public class CarParkManager {
 //
     //properties
     private DataAccess dataAccess;
-    static CarPark chosenPark;
+    private static CarPark chosenPark;
     private ArrayList<CarPark> carParks;
 
 

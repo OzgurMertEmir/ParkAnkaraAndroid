@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Locations extends AppCompatActivity {
-    //
+    //properties
     ControllerMaster controllerMaster;
     ArrayList<String> cpCondition;
     ArrayList<String> cpName;
