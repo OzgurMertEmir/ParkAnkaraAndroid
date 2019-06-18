@@ -20,7 +20,7 @@ public class Locations extends AppCompatActivity {
     ArrayList<String> cpName;
     ArrayList<String> cpAddress;
     ListView listView;
-    static LocationsPostClass adapter;
+    LocationsPostClass adapter;
     ArrayList<String> latitude;
     ArrayList<String> longitude;
 
@@ -76,10 +76,10 @@ public class Locations extends AppCompatActivity {
             longitude.add( carPark.getLongtitude() );
 
             cpAddress.add(carPark.getAdress());
-
+            adapter.notifyDataSetChanged();
 
         }
-        adapter.notifyDataSetChanged();
+
     }
 
     private void startService() {

@@ -1,5 +1,6 @@
 package com.example.parkankaraandroid;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONObject;
 
@@ -13,6 +14,7 @@ import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static android.support.constraint.Constraints.TAG;
 
 
 public class DataAccess {
@@ -32,7 +34,7 @@ public class DataAccess {
 
         downloadData.execute(url);
 
-        checkDatabase();
+        //checkDatabase();
 
     }
 
@@ -106,6 +108,8 @@ public class DataAccess {
 
                 return result;
             }catch (Exception e){
+                Log.d(TAG, "doInBackground: Exception with DoInBackground");
+                System.out.println(e);
                 return null;
             }
         }
@@ -119,18 +123,34 @@ public class DataAccess {
             try {
 
                 JSONObject jsonObject = new JSONObject(s);
+                Log.d(TAG, "onPostExecute: ENTERED THE TRY STATEMENT");
+
                 Iterator<String> keys = jsonObject.keys();
+
 
                 while(keys.hasNext()){
                     String key = keys.next();
-                    HashMap<String, String> hashMap = (HashMap<String, String>) jsonObject.get(key);
+                    HashMap<String, String> hashMap = new HashMap<>();
+                    String values = jsonObject.getString(key);
+                    System.out.println(values);
+
+                    JSONObject jsonObject1 = new JSONObject(values);
+                    hashMap.put("name", jsonObject1.get("name").toString());
+                    hashMap.put("currentCars",jsonObject1.get("currentCars").toString());
+                    hashMap.put("fullCapacity",jsonObject1.get("fullCapacity").toString());
+                    hashMap.put("latitude",jsonObject1.get("latitude").toString());
+                    hashMap.put("longitude",jsonObject1.get("longitude").toString());
+                    hashMap.put("address",jsonObject1.get("address").toString());
+
                     CarPark carPark = new CarPark(hashMap);
                     carParks.add(carPark);
 
                 }
             }catch (Exception e){
-
+                System.out.println(e);
             }
+
+            System.out.println(s);
         }
     }
 }

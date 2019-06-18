@@ -91,7 +91,7 @@ public class LocationsPostClass extends ArrayAdapter<String> {
                 }else{
                     toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.filled_star));
                 }
-                Locations.adapter.notifyDataSetChanged();
+                //Locations.adapter.notifyDataSetChanged();
             }
 
         });
