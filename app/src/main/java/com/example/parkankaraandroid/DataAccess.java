@@ -1,15 +1,18 @@
 package com.example.parkankaraandroid;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONObject;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -19,14 +22,18 @@ public class DataAccess {
     //
     private Timer timer;
     private TimerTask timerTask;
-    private DatabaseReference databaseReference;
-    private FirebaseDatabase firebaseDatabase;
+    DownloadData downloadData;
+    String url;
     private ArrayList<CarPark> carParks;
 
     public DataAccess() {
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("CarPark");
-        carParks = getDataFromDatabase();
+
+        downloadData = new DownloadData();
+        url = "http://parkankara.developerplatforms.com/api/park";
+
+        carParks = new ArrayList<CarPark>();
+
+        downloadData.execute(url);
 
         checkDatabase();
 
@@ -39,57 +46,28 @@ public class DataAccess {
         timerTask = new TimerTask() {
             @Override
             public void run() {
-                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        carParks.clear();
-                        for ( DataSnapshot ds: dataSnapshot.getChildren()) {
-                            try {
-                                HashMap<String, String> hashMap = (HashMap<String, String>) ds.getValue();
-                                CarPark carPark = new CarPark(hashMap);
-                                carParks.add(carPark);
 
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
+                try {
+                    JSONObject jsonObject = new JSONObject(downloadData.doInBackground());
+                    Iterator<String> keys = jsonObject.keys();
+
+                    while (keys.hasNext()) {
+                        String key = keys.next();
+                        HashMap<String, String> hashMap = (HashMap<String, String>) jsonObject.get(key);
+                        CarPark carPark = new CarPark(hashMap);
+                        carParks.add(carPark);
 
                     }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                }catch (Exception e){
 
-                    }
-                });
+                }
+
                 printArrayList();
             }
         };
         timer.schedule(timerTask,10000);
     }
 
-    public ArrayList<CarPark> getDataFromDatabase(){
-        final ArrayList<CarPark> carParksFromDatabase = new ArrayList<>();
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for ( DataSnapshot ds: dataSnapshot.getChildren()) {
-                    try {
-                        HashMap<String, String> hashMap = (HashMap<String, String>) ds.getValue();
-                        CarPark carPark = new CarPark(hashMap);
-                        carParksFromDatabase.add(carPark);
-                        Log.d(TAG, "onDataChange: Entered the first listener!!!!");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        return carParksFromDatabase;
-    }
 
     public void printArrayList()
     {
@@ -100,5 +78,64 @@ public class DataAccess {
 
     public ArrayList getCarParks(){
         return carParks;
+    }
+
+
+    private class DownloadData extends AsyncTask<String,Void,String >{
+
+
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            String result = "";
+            URL url;
+            HttpURLConnection httpURLConnection;
+
+            try {
+                url = new URL(strings[0]);
+                httpURLConnection = (HttpURLConnection) url.openConnection();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+
+                int data = inputStreamReader.read();
+
+                while(data > 0){
+
+                    char charachter = (char) data;
+                    result += charachter;
+
+                    data = inputStreamReader.read();
+                }
+
+                return result;
+            }catch (Exception e){
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            System.out.println("FLAG: ACCESSED TO DATA");
+
+            try {
+
+                JSONObject jsonObject = new JSONObject(s);
+                Iterator<String> keys = jsonObject.keys();
+
+                while(keys.hasNext()){
+                    String key = keys.next();
+                    HashMap<String, String> hashMap = (HashMap<String, String>) jsonObject.get(key);
+                    CarPark carPark = new CarPark(hashMap);
+                    carParks.add(carPark);
+
+                }
+
+            }catch (Exception e){
+
+            }
+        }
     }
 }
