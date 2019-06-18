@@ -1,8 +1,5 @@
 package com.example.parkankaraandroid;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
-import android.util.Log;
-
 
 import org.json.JSONObject;
 
@@ -16,7 +13,7 @@ import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static android.content.ContentValues.TAG;
+
 
 public class DataAccess {
     //
@@ -83,8 +80,6 @@ public class DataAccess {
 
     private class DownloadData extends AsyncTask<String,Void,String >{
 
-
-
         @Override
         protected String doInBackground(String... strings) {
 
@@ -93,6 +88,7 @@ public class DataAccess {
             HttpURLConnection httpURLConnection;
 
             try {
+
                 url = new URL(strings[0]);
                 httpURLConnection = (HttpURLConnection) url.openConnection();
                 InputStream inputStream = httpURLConnection.getInputStream();
@@ -132,7 +128,6 @@ public class DataAccess {
                     carParks.add(carPark);
 
                 }
-
             }catch (Exception e){
 
             }
