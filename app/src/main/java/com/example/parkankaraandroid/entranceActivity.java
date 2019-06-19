@@ -11,11 +11,13 @@ public class entranceActivity extends AppCompatActivity {
     //
 
     private AvailabilityChecker checker;
+    ControllerMaster controllerMaster;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entrance);
+        controllerMaster = new ControllerMaster();
 
 
     }
