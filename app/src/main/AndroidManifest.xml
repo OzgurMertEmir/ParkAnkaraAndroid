@@ -45,6 +45,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBllqFgsBV_oe5hUJ6QCh5qqBkV9uRoqpE"/>
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
         <service
             android:name=".AvailabilityChecker"

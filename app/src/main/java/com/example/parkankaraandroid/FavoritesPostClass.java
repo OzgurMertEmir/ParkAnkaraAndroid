@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.example.parkankaraandroid.LocationsPostClass.sharedPreferences;
+
 public class FavoritesPostClass extends ArrayAdapter<String> {
     //
 
@@ -25,7 +27,6 @@ public class FavoritesPostClass extends ArrayAdapter<String> {
     private final ArrayList<String> cpAddress;
     private final ArrayList<String> cpCondition;
     Set<String> favorites;
-    SharedPreferences sharedPreferences;
     ToggleButton toggleButton;
 
     /**
@@ -71,14 +72,9 @@ public class FavoritesPostClass extends ArrayAdapter<String> {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                if (!favorites.contains(cpName.get(position))) {
-                    favorites.add(cpName.get(position));
-                    editor.putStringSet("CarParkName", favorites).apply();
-                    editor.commit();
-                    Toast.makeText(context, cpName.get(position) + " Favori otoparklara eklendı!", Toast.LENGTH_LONG).show();
-                }
-                else {
+                if ( favorites.contains( cpName.get( position ) ) ) {
                     favorites.remove(cpName.get(position));
+                    editor.clear().commit();
                     editor.putStringSet("CarParkName", favorites).apply();
                     editor.commit();
                     Toast.makeText(context, cpName.get(position) + " Favori otoparklardan çıkarıldı!", Toast.LENGTH_LONG).show();

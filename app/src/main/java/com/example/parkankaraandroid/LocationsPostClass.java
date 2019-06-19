@@ -24,7 +24,7 @@ public class LocationsPostClass extends ArrayAdapter<String> {
     private final ArrayList<String> cpAddress;
     private final ArrayList<String> cpCondition;
     private final Activity context;
-    SharedPreferences sharedPreferences;
+    static SharedPreferences sharedPreferences;
     Set<String> favorites;
     ToggleButton toggleButton;
 
