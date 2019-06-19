@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#32FFFF"
     tools:context=".FavoriteCarParks">
 
     <android.support.design.widget.AppBarLayout
@@ -15,7 +16,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="#32BDD8"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
@@ -23,8 +24,8 @@
     <ListView
         android:id="@+id/favoritesListView"
         android:layout_width="match_parent"
-        android:layout_height="643dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="58dp"
-        />
+        android:background="#32BDD8" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -77,13 +77,13 @@ public class LocationsPostClass extends ArrayAdapter<String> {
                     favorites.add(cpName.get(position));
                     editor.putStringSet("CarParkName", favorites).apply();
                     editor.commit();
-                    Toast.makeText(context, cpName.get(position) + " added to favorites", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, cpName.get(position) + " Favori otoparklara eklendı!", Toast.LENGTH_LONG).show();
                 }
                 else {
                     favorites.remove(cpName.get(position));
                     editor.putStringSet("CarParkName", favorites).apply();
                     editor.commit();
-                    Toast.makeText(context, cpName.get(position) + " removed from favorites", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, cpName.get(position) + " Favori otoparklardan çıkarıldı!", Toast.LENGTH_LONG).show();
                 }
                 if(!favorites.contains(cpName.get(position)))
                 {

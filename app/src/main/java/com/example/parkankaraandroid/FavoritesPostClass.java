@@ -75,13 +75,13 @@ public class FavoritesPostClass extends ArrayAdapter<String> {
                     favorites.add(cpName.get(position));
                     editor.putStringSet("CarParkName", favorites).apply();
                     editor.commit();
-                    Toast.makeText(context, cpName.get(position) + " added to favorites", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, cpName.get(position) + " Favori otoparklara eklendı!", Toast.LENGTH_LONG).show();
                 }
                 else {
                     favorites.remove(cpName.get(position));
                     editor.putStringSet("CarParkName", favorites).apply();
                     editor.commit();
-                    Toast.makeText(context, cpName.get(position) + " removed from favorites", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, cpName.get(position) + " Favori otoparklardan çıkarıldı!", Toast.LENGTH_LONG).show();
                 }
                 Intent intent = new Intent(context, FavoriteCarParks.class);
                 context.startActivity(intent);
@@ -95,10 +95,10 @@ public class FavoritesPostClass extends ArrayAdapter<String> {
         //Checks if the car park is full and then writes the appropriate text to TextView
         if(Integer.parseInt( cpCondition.get(position) ) <= 0)
         {
-            conditionText.setText("Car Park Full!!");
+            conditionText.setText("Park yeri dolu!");
         }
         else {
-            conditionText.setText("Empty Space: " + cpCondition.get(position));
+            conditionText.setText(cpCondition.get(position) + " tane boş yer mevcut");
         }
 
         return favoriteCarParkInfo;
