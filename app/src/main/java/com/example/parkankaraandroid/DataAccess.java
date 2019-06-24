@@ -32,46 +32,31 @@ public class DataAccess {
 
         carParks = new ArrayList<CarPark>();
 
-        downloadData.execute(url);
-
-        //checkDatabase();
-
-    }
-
-
-
-    public void checkDatabase(){
         timer = new Timer(true);
         timerTask = new TimerTask() {
             @Override
             public void run() {
 
                 try {
-                    JSONObject jsonObject = new JSONObject(downloadData.doInBackground());
-                    Iterator<String> keys = jsonObject.keys();
+                    DownloadData downloadData = new DownloadData();
+                    downloadData.execute(url);
 
-                    while (keys.hasNext()) {
-                        String key = keys.next();
-                        HashMap<String, String> hashMap = (HashMap<String, String>) jsonObject.get(key);
-                        CarPark carPark = new CarPark(hashMap);
-                        carParks.add(carPark);
-
-                    }
-                }catch (Exception e){
-
+                } catch (Exception e){
+                    e.printStackTrace();
                 }
 
                 printArrayList();
-            }
+            };
         };
-        timer.schedule(timerTask,10000);
+        timer.schedule(timerTask, 0,10000);
+
     }
 
 
     public void printArrayList()
     {
         for( CarPark cp : carParks){
-            System.out.println(cp.getName());
+            Log.d(TAG, "printCarParks: " + cp.getName());;
         }
     }
 
@@ -117,6 +102,7 @@ public class DataAccess {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            carParks.clear();
 
             System.out.println("FLAG: ACCESSED TO DATA");
 
