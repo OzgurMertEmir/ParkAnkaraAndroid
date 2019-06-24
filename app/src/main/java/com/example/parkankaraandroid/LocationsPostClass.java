@@ -63,12 +63,6 @@ public class LocationsPostClass extends ArrayAdapter<String> {
         TextView conditionText = carParkInfo.findViewById(R.id.condition);
         toggleButton = carParkInfo.findViewById(R.id.favoriteButton);
 
-        if(!favorites.contains(cpName.get(position)))
-        {
-            toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.unfilled_star));
-        }else{
-            toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.filled_star));
-        }
         toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -84,12 +78,6 @@ public class LocationsPostClass extends ArrayAdapter<String> {
                     editor.putStringSet("CarParkName", favorites).apply();
                     editor.commit();
                     Toast.makeText(context, cpName.get(position) + " Favori otoparklardan çıkarıldı!", Toast.LENGTH_LONG).show();
-                }
-                if(!favorites.contains(cpName.get(position)))
-                {
-                    toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.unfilled_star));
-                }else{
-                    toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.filled_star));
                 }
                 //Locations.adapter.notifyDataSetChanged();
             }
