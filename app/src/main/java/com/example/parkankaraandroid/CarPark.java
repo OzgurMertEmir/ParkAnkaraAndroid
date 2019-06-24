@@ -14,6 +14,7 @@ public class CarPark{
     private double longtitude;
     private LatLng location;
     private int emptySpace;
+    private boolean isFavorite;
 
     //constructor
     public CarPark(HashMap<String, String > properties){
@@ -25,6 +26,7 @@ public class CarPark{
         longtitude = Double.valueOf(properties.get("longitude"));
         location = new LatLng(latitude, longtitude );
         adress = properties.get("address");
+        isFavorite = false;
     }
 
     //methods of carparks
@@ -53,4 +55,6 @@ public class CarPark{
     public String getLatitude(){return String.valueOf(latitude);}
 
     public String getLongtitude(){return String.valueOf(longtitude);}
+
+    public boolean isFavorite(){return isFavorite;}
 }

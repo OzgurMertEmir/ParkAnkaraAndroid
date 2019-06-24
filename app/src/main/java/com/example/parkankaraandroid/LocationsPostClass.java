@@ -63,6 +63,7 @@ public class LocationsPostClass extends ArrayAdapter<String> {
         TextView conditionText = carParkInfo.findViewById(R.id.condition);
         toggleButton = carParkInfo.findViewById(R.id.favoriteButton);
 
+
         toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -81,7 +82,6 @@ public class LocationsPostClass extends ArrayAdapter<String> {
                 }
                 //Locations.adapter.notifyDataSetChanged();
             }
-
         });
 
         //set method  of components
