@@ -4,14 +4,20 @@ import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
 import static android.support.constraint.Constraints.TAG;
 
 
 public class CarParkManager {
-//
+    //constants
+    private final static String TAG = "CarParkManager";
+
     //properties
+    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private DataAccess dataAccess;
     private static CarPark chosenPark;
     private ArrayList<CarPark> carParks;
@@ -20,7 +26,20 @@ public class CarParkManager {
     //constructors
     public CarParkManager(){
         dataAccess = new DataAccess();
-        carParks = dataAccess.getCarParks();
+        carParks = (ArrayList<CarPark>) dataAccess.getCarParks();
+        dataAccess.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                ArrayList<CarPark> oldCarParks = carParks;
+                Log.d(TAG, "propertyChange: "+ evt.getPropertyName() + " Old Value: " +evt.getOldValue() + "New Value: " + evt.getNewValue());
+                carParks = dataAccess.getCarParks();
+                try {
+                    pcs.firePropertyChange(evt);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
         chosenPark = null;
     }
 
@@ -58,7 +77,7 @@ public class CarParkManager {
 
     public String getChosenParkAddress(){
         if (chosenPark != null){
-            return chosenPark.getAdress();
+            return chosenPark.getAddress();
         }else{
             return "No Car Park chosen";
         }
@@ -106,6 +125,10 @@ public class CarParkManager {
 
     public void removeChosenPark(){
         chosenPark = null;
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener){
+        this.pcs.addPropertyChangeListener(listener);
     }
 
 }
