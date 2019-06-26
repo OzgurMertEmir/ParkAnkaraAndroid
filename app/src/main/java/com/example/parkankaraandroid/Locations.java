@@ -9,20 +9,26 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
 
 public class Locations extends AppCompatActivity {
+    //constants
+    private static final String TAG = "Locations";
+
     //properties
+    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     ControllerMaster controllerMaster;
-    ArrayList<String> cpCondition;
     ArrayList<String> cpName;
     ArrayList<String> cpAddress;
+    ArrayList<String> cpCondition;
+    ArrayList<CarPark> carParks;
     ListView listView;
     LocationsPostClass adapter;
-    ArrayList<String> latitude;
-    ArrayList<String> longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,59 +39,64 @@ public class Locations extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         listView = findViewById(R.id.listView);
         controllerMaster = new ControllerMaster();
-        cpCondition = new ArrayList<>();
-        cpAddress = new ArrayList<>();
+        carParks = controllerMaster.getCarParks();
         cpName = new ArrayList<>();
-        latitude = new ArrayList<>();
-        longitude = new ArrayList<>();
+        cpAddress = new ArrayList<>();
+        cpCondition = new ArrayList<>();
+        for(CarPark carPark: carParks){
+            cpName.add(carPark.getName());
+            cpAddress.add(carPark.getAddress());
+            cpCondition.add(String.valueOf(carPark.getEmptySpace()));
+        }
+
+
         adapter = new LocationsPostClass(cpName, cpAddress, cpCondition, this);
-
-
-        getDataFromMaster();
 
         listView.setAdapter(adapter);
 
+        controllerMaster.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                try {
+                    cpName.clear();
+                    cpAddress.clear();
+                    cpCondition.clear();
+
+                    Log.d(TAG, "propertyChange: CARPARKS UPDATED");
+
+                    carParks = controllerMaster.getCarParks();
+
+                    for(CarPark carPark : carParks){
+                        Log.d(TAG, "propertyChange: " + carPark.getName() + ": " + carPark.getEmptySpace());
+                        cpName.add(carPark.getName());
+                        cpAddress.add(carPark.getAddress());
+                        cpCondition.add(String.valueOf(carPark.getEmptySpace()));
+                        adapter.notifyDataSetChanged();
+                    }
+
+                }catch( Exception e ){
+                    e.printStackTrace();
+                }
+            }
+        });
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 controllerMaster.getCarParkManager().chooseCarPark(cpName.get(position));
-                startService();
+                //startService();
                 Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
                 startActivity(intent);
             }
         });
     }
 
-    public void getDataFromMaster(){
-        cpName.clear();
-        cpCondition.clear();
-        latitude.clear();
-        longitude.clear();
-        cpAddress.clear();
-        Log.d(TAG, "getDataFromMaster: ENTERED AND CLEARED ALL THE ARRAYLISTS");
-
-        for( CarPark carPark : controllerMaster.getCarParks() )
-        {
-            cpName.add(carPark.getName());
-
-            cpCondition.add( String.valueOf ( carPark.getEmptySpace() ) );
-
-            latitude.add( carPark.getLatitude() );
-            longitude.add( carPark.getLongtitude() );
-
-            cpAddress.add(carPark.getAdress());
-            adapter.notifyDataSetChanged();
-
-        }
-
-    }
-
     private void startService() {
         Intent serviceIntent = new Intent(this, AvailabilityChecker.class);
         startService(serviceIntent);
     }
+
 }
 
 

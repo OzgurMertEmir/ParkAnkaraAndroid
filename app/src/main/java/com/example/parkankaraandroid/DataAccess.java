@@ -4,6 +4,9 @@ import android.util.Log;
 
 import org.json.JSONObject;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -18,7 +21,12 @@ import static android.support.constraint.Constraints.TAG;
 
 
 public class DataAccess {
-    //
+    //constants
+    private final static String TAG = "DataAccess";
+
+    //properties
+    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    static boolean firstTimeOpened = true;
     private Timer timer;
     private TimerTask timerTask;
     DownloadData downloadData;
@@ -26,7 +34,6 @@ public class DataAccess {
     private ArrayList<CarPark> carParks;
 
     public DataAccess() {
-
         downloadData = new DownloadData();
         url = "http://parkankara.developerplatforms.com/api/park";
 
@@ -45,7 +52,7 @@ public class DataAccess {
                     e.printStackTrace();
                 }
 
-                printArrayList();
+                //printArrayList();
             };
         };
         timer.schedule(timerTask, 0,10000);
@@ -94,7 +101,7 @@ public class DataAccess {
                 return result;
             }catch (Exception e){
                 Log.d(TAG, "doInBackground: Exception with DoInBackground");
-                System.out.println(e);
+                e.printStackTrace();
                 return null;
             }
         }
@@ -102,7 +109,7 @@ public class DataAccess {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            carParks.clear();
+            //carParks.clear();
 
             System.out.println("FLAG: ACCESSED TO DATA");
 
@@ -113,30 +120,58 @@ public class DataAccess {
 
                 Iterator<String> keys = jsonObject.keys();
 
+                if(firstTimeOpened) {
+                    while (keys.hasNext()) {
+                        String key = keys.next();
+                        HashMap<String, String> hashMap = new HashMap<>();
+                        String values = jsonObject.getString(key);
+                        Log.d(TAG, "onPostExecute: FIRST TIME ENTERED" + values);
 
-                while(keys.hasNext()){
-                    String key = keys.next();
-                    HashMap<String, String> hashMap = new HashMap<>();
-                    String values = jsonObject.getString(key);
-                    System.out.println(values);
+                        JSONObject jsonObject1 = new JSONObject(values);
+                        hashMap.put("name", jsonObject1.get("name").toString());
+                        hashMap.put("currentCars", jsonObject1.get("currentCars").toString());
+                        hashMap.put("fullCapacity", jsonObject1.get("fullCapacity").toString());
+                        hashMap.put("latitude", jsonObject1.get("latitude").toString());
+                        hashMap.put("longitude", jsonObject1.get("longitude").toString());
+                        hashMap.put("address", jsonObject1.get("address").toString());
 
-                    JSONObject jsonObject1 = new JSONObject(values);
-                    hashMap.put("name", jsonObject1.get("name").toString());
-                    hashMap.put("currentCars",jsonObject1.get("currentCars").toString());
-                    hashMap.put("fullCapacity",jsonObject1.get("fullCapacity").toString());
-                    hashMap.put("latitude",jsonObject1.get("latitude").toString());
-                    hashMap.put("longitude",jsonObject1.get("longitude").toString());
-                    hashMap.put("address",jsonObject1.get("address").toString());
+                        CarPark carPark = new CarPark(hashMap);
+                        carPark.addPropertyChangeListener(new PropertyChangeListener() {
+                            @Override
+                            public void propertyChange(PropertyChangeEvent evt) {
+                                Log.d(TAG, "propertyChange: " + evt.getPropertyName() + " Old Value: " +evt.getOldValue() + "New Value: " + evt.getNewValue());
+                                pcs.firePropertyChange(evt.toString(), evt.getOldValue(), evt.getNewValue());
+                            }
+                        });
+                        carParks.add(carPark);
 
-                    CarPark carPark = new CarPark(hashMap);
-                    carParks.add(carPark);
+                    }
+                    firstTimeOpened = false;
+                }else{
+                    int i = 0;
+                    while(keys.hasNext()){
+                        String key = keys.next();
+                        String values = jsonObject.getString(key);
+                        Log.d(TAG, "onPostExecute: NOT THE FIRST TIME ENTERED" + values);
 
+                        JSONObject jsonObject1 = new JSONObject(values);
+                        //int oldValue = carParks.get(i).getEmptySpace();
+                        //String name = carParks.get(i).toString();
+                        carParks.get(i).setEmptySpace( Integer.parseInt( jsonObject1.get("fullCapacity").toString() ) - Integer.parseInt( jsonObject1.get("currentCars").toString() ) );
+                        //int newValue = carParks.get(i).getEmptySpace();
+                        //pcs.firePropertyChange(name, oldValue, newValue);
+                        i++;
+                    }
                 }
             }catch (Exception e){
-                System.out.println(e);
+                e.printStackTrace();
             }
 
             System.out.println(s);
         }
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener){
+        this.pcs.addPropertyChangeListener(listener);
     }
 }

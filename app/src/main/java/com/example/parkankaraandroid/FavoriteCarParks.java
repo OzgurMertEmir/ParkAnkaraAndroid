@@ -74,7 +74,7 @@ public class FavoriteCarParks extends AppCompatActivity {
             if( favorites.contains(carPark.getName() ) )
             {
                 cpName.add( carPark.getName() );
-                cpAddress.add( carPark.getAdress() );
+                cpAddress.add( carPark.getAddress() );
                 cpCondition.add( String.valueOf( carPark.getEmptySpace() ) );
                 latitude.add( carPark.getLatitude());
                 longitude.add(carPark.getLongtitude());
