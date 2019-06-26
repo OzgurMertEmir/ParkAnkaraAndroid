@@ -69,6 +69,7 @@ public class LocationsPostClass extends ArrayAdapter<String> {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 if (!favorites.contains(cpName.get(position))) {
+                    buttonView.setChecked(true);
                     favorites.add(cpName.get(position));
                     editor.putStringSet("CarParkName", favorites).apply();
                     editor.commit();
@@ -76,11 +77,11 @@ public class LocationsPostClass extends ArrayAdapter<String> {
                 }
                 else {
                     favorites.remove(cpName.get(position));
+                    buttonView.setChecked(false);
                     editor.putStringSet("CarParkName", favorites).apply();
                     editor.commit();
                     Toast.makeText(context, cpName.get(position) + " Favori otoparklardan çıkarıldı!", Toast.LENGTH_LONG).show();
                 }
-                //Locations.adapter.notifyDataSetChanged();
             }
         });
 
