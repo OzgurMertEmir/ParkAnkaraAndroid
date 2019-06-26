@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ParkAnkaraAndroid</string>
-    <string name="title_activity_entrance">entranceActivity</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="app_name">Park Ankara</string>
+    <string name="title_activity_entrance">Park Ankara</string>
+    <string name="title_activity_maps">Harita</string>
 </resources>

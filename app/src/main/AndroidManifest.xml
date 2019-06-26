@@ -23,7 +23,7 @@
 
         <activity
             android:name=".Locations"
-            android:label="Locations"
+            android:label="Lokasyonlar"
             android:parentActivityName=".entranceActivity">
                 <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
@@ -31,11 +31,11 @@
         </activity>
 
         <activity   android:name=".MapsActivity"
-                    android:label="Maps"/>
+                    android:label="Harita"/>
 
         <activity
             android:name=".FavoriteCarParks"
-            android:label="Favorite Car Parks"
+            android:label="Favori Otoparklar"
             android:parentActivityName=".entranceActivity">
                 <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
