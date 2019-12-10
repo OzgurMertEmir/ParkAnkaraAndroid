@@ -6,15 +6,23 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 public class FavoriteCarParks extends AppCompatActivity {
+
+    //constants
+    final private static String  TAG  = "FavoriteCarParks";
+
+    //properties
     SharedPreferences sharedPreferences;
     Set<String> favorites;
     ArrayList<String> cpCondition;
@@ -22,16 +30,17 @@ public class FavoriteCarParks extends AppCompatActivity {
     ArrayList<String> cpAddress;
     ArrayList<String> latitude;
     ArrayList<String> longitude;
+    ArrayList<CarPark> carParks;
     ListView favoritesListView;
     FavoritesPostClass adapter;
     ControllerMaster controllerMaster;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_favorite_car_parks);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        //Toolbar toolbar = findViewById(R.id.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //find listView
@@ -61,19 +70,53 @@ public class FavoriteCarParks extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 controllerMaster.getCarParkManager().chooseCarPark(cpName.get(position));
-                startService();
+                //startService();
                 Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        controllerMaster.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                try {
+                    cpName.clear();
+                    cpAddress.clear();
+                    cpCondition.clear();
+
+                    Log.d(TAG, "propertyChange: CARPARKS UPDATED");
+
+                    carParks = controllerMaster.getCarParks();
+
+                    for(CarPark carPark : carParks){
+                        Log.d(TAG, "propertyChange: " + carPark.getName() + ": " + carPark.getEmptySpace());
+                        cpName.add(carPark.getName());
+                        cpAddress.add(carPark.getAddress());
+                        cpCondition.add(String.valueOf(carPark.getEmptySpace()));
+                        adapter.notifyDataSetChanged();
+                    }
+
+                }catch( Exception e ){
+                    e.printStackTrace();
+                }
             }
         });
     }
 
     public void getFavoritesFromMaster(){
+        cpName.clear();
+        cpAddress.clear();
+        cpCondition.clear();
+        latitude.clear();
+        longitude.clear();
+        sharedPreferences = getSharedPreferences("com.example.parkankara", Context.MODE_PRIVATE);
+        favorites = new HashSet<>( sharedPreferences.getStringSet("CarParkName", new HashSet<String>()) );
 
         for(CarPark carPark : controllerMaster.getCarParks() ){
             if( favorites.contains(carPark.getName() ) )
             {
                 cpName.add( carPark.getName() );
+                Log.d(TAG, "getFavoritesFromMaster: --------------" + carPark.getName() );
                 cpAddress.add( carPark.getAddress() );
                 cpCondition.add( String.valueOf( carPark.getEmptySpace() ) );
                 latitude.add( carPark.getLatitude());

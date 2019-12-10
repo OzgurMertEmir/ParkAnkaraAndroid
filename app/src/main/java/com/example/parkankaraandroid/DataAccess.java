@@ -2,6 +2,9 @@ package com.example.parkankaraandroid;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import org.json.JSONObject;
 
 import java.beans.PropertyChangeEvent;
@@ -35,8 +38,9 @@ public class DataAccess {
 
     public DataAccess() {
         downloadData = new DownloadData();
-        url = "http://parkankara.developerplatforms.com/api/park";
+        //url = "http://parkankara.developerplatforms.com/api/park";
 
+        url = "https://parkankara-59ec4.firebaseio.com/CarPark.json";
         carParks = new ArrayList<CarPark>();
 
         timer = new Timer(true);
@@ -53,7 +57,7 @@ public class DataAccess {
                 }
 
                 //printArrayList();
-            };
+            }
         };
         timer.schedule(timerTask, 0,10000);
 
@@ -63,11 +67,11 @@ public class DataAccess {
     public void printArrayList()
     {
         for( CarPark cp : carParks){
-            Log.d(TAG, "printCarParks: " + cp.getName());;
+            Log.d(TAG, "printCarParks: " + cp.getName());
         }
     }
 
-    public ArrayList getCarParks(){
+    public ArrayList<CarPark> getCarParks(){
         return carParks;
     }
 

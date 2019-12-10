@@ -13,27 +13,30 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class AvailabilityChecker extends Service {
-    //
+    //constants
     private static final String TAG = "AvailabilityChecker";
-    private CarParkManager manager = new CarParkManager();
+
+    //properties
+    private ControllerMaster controllerMaster;
     private Timer timer;
     private TimerTask timerTask;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        controllerMaster = new ControllerMaster();
 
         timer = new Timer();
         timerTask = new TimerTask() {
             @Override
             public void run() {
                 try{
-                    if( !manager.isEmpty() ){
+                    if( !controllerMaster.getCarParkManager().isEmpty() ){
                         Log.d(TAG, "onStartCommand: Service is going to stop");
-                        manager.removeChosenPark();
+                        controllerMaster.getCarParkManager().removeChosenPark();
                         stopSelf();
                     }
                 }catch(Exception e){
-                    System.out.println(e);
+                    e.printStackTrace();
                 }
             }
 
@@ -60,7 +63,7 @@ public class AvailabilityChecker extends Service {
             startActivity(intent);
             Toast.makeText(getApplicationContext(), "Park yeri doldu!!!", Toast.LENGTH_LONG).show();
         }catch (Exception e){
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 }

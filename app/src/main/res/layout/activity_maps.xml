@@ -12,10 +12,11 @@
         android:id="@+id/back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left|top"
+        android:layout_gravity="right|top"
         android:layout_marginTop="20dp"
         android:onClick="openMain"
         android:padding="10dp"
-        android:paddingRight="10dp"
-        android:text="Menu" />
+        android:paddingRight="20dp"
+        android:text="ANA MENÜ"
+        android:background="#32BDD8"/>
 </fragment>

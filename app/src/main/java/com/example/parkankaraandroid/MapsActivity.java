@@ -94,7 +94,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         else {
             try {
                 MarkerOptions options = new MarkerOptions();
-                options.position(controllerMaster.getCarParkManager().getChosenParkLocation());
+                //options.position(controllerMaster.getCarParkManager().getChosenParkLocation());
+                options.position(controllerMaster.getCarParkManager().getChosenParkLocation()).title(controllerMaster.getCarParkManager().getChosenPark().getName()).snippet("Empty Spaces: " + controllerMaster.getCarParkManager().getChosenPark().getEmptySpace() );
                 if(controllerMaster.getCarParkManager().getChosenPark().getEmptySpace() == 0) {
                     options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                 }else{
@@ -102,7 +103,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
                 mMap.addMarker(options);
                 controllerMaster.getCarParkManager().removeChosenPark();
-                startService(new Intent(getApplicationContext(), AvailabilityChecker.class) );
+                //startService(new Intent(getApplicationContext(), AvailabilityChecker.class) );
             }catch(Exception e){
                 stopService(new Intent(getApplicationContext(), AvailabilityChecker.class));
             }
