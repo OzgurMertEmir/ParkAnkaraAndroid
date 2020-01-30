@@ -24,6 +24,7 @@ public class entranceActivity extends AppCompatActivity {
 
     public void seeTheMap(View view)
     {
+        controllerMaster.getCarParkManager().removeChosenPark();
         Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
         startActivity(intent);
     }
