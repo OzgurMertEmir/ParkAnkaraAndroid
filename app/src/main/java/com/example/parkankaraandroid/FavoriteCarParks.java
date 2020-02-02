@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -31,8 +33,8 @@ public class FavoriteCarParks extends AppCompatActivity {
     ArrayList<String> latitude;
     ArrayList<String> longitude;
     ArrayList<CarPark> carParks;
-    ListView favoritesListView;
-    FavoritesPostClass adapter;
+    RecyclerView favoritesListView;
+    FavoritesRecyclerViewAdapter adapter;
     ControllerMaster controllerMaster;
 
     @Override
@@ -44,7 +46,7 @@ public class FavoriteCarParks extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //find listView
-        favoritesListView = findViewById(R.id.favoritesListView);
+        favoritesListView = findViewById(R.id.favoritesRecyclerView);
 
         //Constructors for ArrayLists
         cpName = new ArrayList<>();
@@ -61,12 +63,13 @@ public class FavoriteCarParks extends AppCompatActivity {
         favorites = new HashSet<>( sharedPreferences.getStringSet("CarParkName", new HashSet<String>()) );
 
         //Connecting to adapter
-        adapter = new FavoritesPostClass(cpName, cpAddress, cpCondition, this);
+        favoritesListView.setLayoutManager( new LinearLayoutManager(this));
+        adapter = new FavoritesRecyclerViewAdapter(cpName, cpAddress, cpCondition, this);
         favoritesListView.setAdapter(adapter);
 
         getFavoritesFromMaster();
 
-        favoritesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*favoritesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 controllerMaster.getCarParkManager().chooseCarPark(cpName.get(position));
@@ -74,7 +77,7 @@ public class FavoriteCarParks extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
                 startActivity(intent);
             }
-        });
+        });*/
 
         controllerMaster.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
@@ -101,6 +104,14 @@ public class FavoriteCarParks extends AppCompatActivity {
                 }
             }
         });
+
+        adapter.addFavoritesPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                getFavoritesFromMaster();
+                //adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     public void getFavoritesFromMaster(){
@@ -121,9 +132,10 @@ public class FavoriteCarParks extends AppCompatActivity {
                 cpCondition.add( String.valueOf( carPark.getEmptySpace() ) );
                 latitude.add( carPark.getLatitude());
                 longitude.add(carPark.getLongtitude());
-                adapter.notifyDataSetChanged();
+
             }
         }
+        adapter.notifyDataSetChanged();
 
     }
 

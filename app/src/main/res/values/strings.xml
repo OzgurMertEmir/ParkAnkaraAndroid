@@ -3,4 +3,9 @@
     <string name="title_activity_entrance">Park Ankara</string>
     <string name="title_activity_maps">Harita</string>
     <string name="Favoriler">FAVORİLER</string>
+    <string name="cpName">cpName</string>
+    <string name="Location">Location</string>
+    <string name="Condition">Condition</string>
+    <string name="ToggleButton">ToggleButton</string>
+    <string name="EmptySpace"> </string>
 </resources>

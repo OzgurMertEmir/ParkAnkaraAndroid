@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,31 +8,27 @@
     android:background="#32BDD8"
     tools:context=".FavoriteCarParks">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <!--<android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="#32BDD8"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />-->
-
-    </android.support.design.widget.AppBarLayout>
-
-    <ListView
-        android:id="@+id/favoritesListView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="58dp"
-        android:background="#32BDD8" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/favoritesRecyclerView"
+        android:layout_width="413dp"
+        android:layout_height="650dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchBarFavorites" />
 
     <SearchView
-        android:id="@+id/searchBarFavourites"
+        android:id="@+id/searchBarFavorites"
         android:layout_width="match_parent"
-        android:layout_height="58dp"
-        android:layoutDirection="rtl" />
+        android:layout_height="60dp"
+        android:layoutDirection="rtl"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</android.support.design.widget.CoordinatorLayout>
+
+    </SearchView>
+    <!--android:scrollbars="vertical" -->
+
+
+</android.support.constraint.ConstraintLayout>

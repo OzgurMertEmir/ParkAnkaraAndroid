@@ -3,6 +3,8 @@ package com.example.parkankaraandroid;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -27,8 +29,8 @@ public class Locations extends AppCompatActivity {
     ArrayList<String> cpAddress;
     ArrayList<String> cpCondition;
     ArrayList<CarPark> carParks;
-    ListView listView;
-    LocationsPostClass adapter;
+    //RecyclerView listView;
+    LocationsRecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,7 @@ public class Locations extends AppCompatActivity {
         //Toolbar toolbar = findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        listView = findViewById(R.id.listView);
+
         controllerMaster = new ControllerMaster();
         carParks = controllerMaster.getCarParks();
         cpName = new ArrayList<>();
@@ -45,13 +47,15 @@ public class Locations extends AppCompatActivity {
         cpCondition = new ArrayList<>();
         for(CarPark carPark: carParks){
             cpName.add(carPark.getName());
+            Log.d(TAG, "onCreate: " + carPark.getName());
             cpAddress.add(carPark.getAddress());
             cpCondition.add(String.valueOf(carPark.getEmptySpace()));
         }
 
+        RecyclerView listView = findViewById(R.id.locationsRecyclerView);
 
-        adapter = new LocationsPostClass(cpName, cpAddress, cpCondition, this);
-
+        listView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new LocationsRecyclerViewAdapter(cpName, cpAddress, cpCondition, this);
         listView.setAdapter(adapter);
 
         controllerMaster.addPropertyChangeListener(new PropertyChangeListener() {
@@ -79,8 +83,8 @@ public class Locations extends AppCompatActivity {
                 }
             }
         });
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        //listView.addOnItemTouchListener();
+        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -89,7 +93,7 @@ public class Locations extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
                 startActivity(intent);
             }
-        });
+        });*/
     }
 
     private void startService() {

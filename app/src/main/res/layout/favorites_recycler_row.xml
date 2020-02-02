@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="410dp"
     android:layout_height="200dp"
     android:background="#32BDD8">
 
     <TextView
-        android:id="@+id/cpName"
+        android:id="@+id/favoritesCpName"
         android:layout_width="400dp"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:text="cpName"
+        android:text="@string/cpName"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,47 +21,44 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/address"
+        android:id="@+id/favoritesAddress"
         android:layout_width="310dp"
         android:layout_height="40dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Location"
+        android:text="@string/Location"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/condition"
+        app:layout_constraintBottom_toTopOf="@+id/favoritesCondition"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cpName" />
+        app:layout_constraintTop_toBottomOf="@+id/favoritesCpName"
+        app:layout_constraintVertical_bias="0.652" />
 
     <TextView
-        android:id="@+id/condition"
+        android:id="@+id/favoritesCondition"
         android:layout_width="310dp"
         android:layout_height="40dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Condition"
+        android:text="@string/Condition"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <ToggleButton
-        android:id="@+id/favoriteButton"
-        android:layout_width="63dp"
-        android:layout_height="66dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="21dp"
-        android:layout_marginBottom="24dp"
-        android:background="@drawable/toggle_selector"
+        android:id="@+id/favoritesFavoriteButton"
+        android:layout_width="59dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/filled_star"
         android:focusable="false"
-        android:text="ToggleButton"
-        android:textOff=" "
-        android:textOn=" "
+        android:text="@string/ToggleButton"
+        android:textOff="@string/EmptySpace"
+        android:textOn="@string/EmptySpace"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/condition"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cpName" />
+        app:layout_constraintTop_toBottomOf="@+id/favoritesCpName" />
+
 </android.support.constraint.ConstraintLayout>
